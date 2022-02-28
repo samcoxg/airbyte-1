@@ -121,6 +121,18 @@ class SequenceStates(IncrementalOutreachStream):
         return "sequenceStates"
 
 
+class Snippets(IncrementalOutreachStream):
+    """
+    Snippet stream. Yields data from the GET /sequences endpoint.
+    See https://api.outreach.io/api/v2/docs#snippet
+    """
+
+    primary_key = "id"
+
+    def path(self, **kwargs) -> str:
+        return "snippets"
+
+
 class OutreachAuthenticator(Oauth2Authenticator):
     def __init__(self, redirect_uri: str, token_refresh_endpoint: str, client_id: str, client_secret: str, refresh_token: str):
         super().__init__(
@@ -161,4 +173,5 @@ class SourceOutreach(AbstractSource):
             Prospects(authenticator=auth, **config),
             Sequences(authenticator=auth, **config),
             SequenceStates(authenticator=auth, **config),
+            Snippets(authenticator=auth, **config),
         ]
